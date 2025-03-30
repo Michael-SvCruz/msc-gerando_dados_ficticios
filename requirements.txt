@@ -1,0 +1,4 @@
+faker==24.11.0
+pymongo==4.6.1
+pandas==2.2.1
+python-dotenv==1.0.0

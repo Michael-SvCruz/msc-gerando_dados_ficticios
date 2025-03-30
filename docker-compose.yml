@@ -1,0 +1,47 @@
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: financial_mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d  # Para scripts de inicialização
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: senha123
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.runCommand('ping').ok", "-u", "admin", "-p", "senha123", "--quiet"]
+      interval: 5s
+      timeout: 30s
+      retries: 3
+
+  data-generator:
+    build: .
+    container_name: data_generator_container
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    volumes:
+      - ./scripts:/app/scripts
+      - ./datasets:/app/data/datasets
+    environment:
+      MONGO_URI: "mongodb://admin:senha123@mongodb:27017/"
+    command: ["tail", "-f", "/dev/null"]  # Mantém o container rodando
+  mongo-express:  #SERVIÇO (Interface Web)
+    image: mongo-express
+    container_name: mongo_express
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: senha123
+      ME_CONFIG_BASICAUTH_USERNAME: "admin"  # Credenciais da interface web
+      ME_CONFIG_BASICAUTH_PASSWORD: "senha123"
+      ME_CONFIG_MONGODB_URL: "mongodb://admin:senha123@mongodb:27017/"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+volumes:
+  mongodb_data:

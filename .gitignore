@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Dados e logs
+data/datasets/
+mongodb_data/
+*.log
+
+# Ambiente/Segurança
+.env
+.env.local
+
+# IDEs
+.vscode/
+.idea/
+
+# Docker
+*.env
