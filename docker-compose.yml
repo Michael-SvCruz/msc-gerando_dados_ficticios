@@ -24,7 +24,7 @@ services:
         condition: service_healthy
     volumes:
       - ./scripts:/app/scripts
-      - ./datasets:/app/data/datasets
+      - ./data/datasets:/app/datasets
     environment:
       MONGO_URI: "mongodb://admin:senha123@mongodb:27017/"
     command: ["tail", "-f", "/dev/null"]  # Mantém o container rodando
