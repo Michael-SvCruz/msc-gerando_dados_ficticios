@@ -20,12 +20,12 @@ class CustomerGenerator:
         self.last_customer_id = self._get_last_customer_id()
 
     def _get_last_customer_id(self) -> int:
-        """Obtém o último ID usado do MongoDB ou inicia em 1_000_000"""
+        """Obtém o último ID usado do MongoDB ou inicia em 100000"""
         with MongoClient(MONGO_URI) as client:
             last_customer = client[DB_NAME][COLLECTION_NAME].find_one(
                 {}, sort=[("customer_id", -1)]
             )
-            return last_customer["customer_id"] if last_customer else 1_000_000
+            return last_customer["customer_id"] if last_customer else 100000
 
     def _generate_customer_id(self) -> int:
         """Gera ID incremental único"""
@@ -122,7 +122,7 @@ if __name__ == "__main__":
     db_handler = MongoDBHandler()
     
     # Gera dados
-    customers = generator.generate_customers(1000)
+    customers = generator.generate_customers(10000)
     print(f"🔢 IDs gerados: {customers[0]['customer_id']} a {customers[-1]['customer_id']}")
     
     # Insere no MongoDB
@@ -137,5 +137,5 @@ if __name__ == "__main__":
             print(f"   - Campo '{error['field']}' com valor duplicado: {error['value']}")
     
     # Backup
-    save_backup(customers, "/app/data/datasets/customers_backup.json")
+    save_backup(customers, "/app/datasets/customers_backup.json")
     print("✅ Concluído!")
