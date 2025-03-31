@@ -18,6 +18,7 @@ services:
 
   data-generator:
     build: .
+    env_file: .env
     container_name: data_generator_container
     depends_on:
       mongodb:
