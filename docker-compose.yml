@@ -1,6 +1,8 @@
 services:
   mongodb:
-    image: mongo:6.0
+    build:
+      context: .
+      dockerfile: Dockerfile.mongo
     container_name: financial_mongodb
     ports:
       - "27017:27017"
