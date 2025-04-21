@@ -7,7 +7,7 @@ import json
 from typing import List, Dict
 
 # Configurações
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://admin:senha123@mongodb:27017/")
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://admin:senha123@mongodb:27017/?replicaSet=rs0&authSource=admin")
 DB_NAME = "financial_db"
 COLLECTION_NAME = "customers"
 SEQUENCE_COLLECTION = "counters"  # Coleção para controle de sequência
@@ -118,11 +118,12 @@ def save_backup(data: List[Dict], filename: str):
 
 if __name__ == "__main__":
     print("🚀 Iniciando geração de clientes...")
+    print(f"🔗 Conectando a: {MONGO_URI}")
     generator = CustomerGenerator()
     db_handler = MongoDBHandler()
     
     # Gera dados
-    customers = generator.generate_customers(10000)
+    customers = generator.generate_customers(100)
     print(f"🔢 IDs gerados: {customers[0]['customer_id']} a {customers[-1]['customer_id']}")
     
     # Insere no MongoDB
