@@ -1,0 +1,10 @@
+FROM mongo:6.0
+
+# Copia o script para dentro da imagem
+COPY entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+# Dá permissão de execução
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# Usa esse script como ponto de entrada
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
