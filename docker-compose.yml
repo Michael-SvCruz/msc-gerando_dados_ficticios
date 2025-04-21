@@ -5,8 +5,8 @@ services:
     ports:
       - "27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: senha123
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - mongodb_data:/data/db
       - ./mongo-init/keyfile/mongodb-keyfile:/etc/mongo-keyfile
@@ -14,7 +14,7 @@ services:
     entrypoint: [ "bash", "/usr/local/bin/docker-entrypoint.sh" ]
 
     healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')", "-u", "admin", "-p", "senha123", "--authenticationDatabase", "admin"]
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')", "-u", "${MONGO_INITDB_ROOT_USERNAME}", "-p", "${MONGO_INITDB_ROOT_PASSWORD}", "--authenticationDatabase", "admin"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -30,7 +30,7 @@ services:
       - ./scripts:/app/scripts
       - ./data/datasets:/app/datasets
     environment:
-      MONGO_URI: "mongodb://admin:senha123@mongodb:27017/?replicaSet=rs0&authSource=admin"
+      MONGO_URI: ${MONGO_URI}
     command: ["tail", "-f", "/dev/null"]
 
   mongo-express:
@@ -39,11 +39,11 @@ services:
     ports:
     - "8081:8081"
     environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
-      ME_CONFIG_MONGODB_ADMINPASSWORD: senha123
-      ME_CONFIG_BASICAUTH_USERNAME: admin
-      ME_CONFIG_BASICAUTH_PASSWORD: senha123
-      ME_CONFIG_MONGODB_URL: mongodb://admin:senha123@mongodb:27017/?authSource=admin&replicaSet=rs0
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${ME_CONFIG_MONGODB_ADMINUSERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${ME_CONFIG_MONGODB_ADMINPASSWORD}
+      ME_CONFIG_BASICAUTH_USERNAME: ${ME_CONFIG_BASICAUTH_USERNAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${ME_CONFIG_BASICAUTH_PASSWORD}
+      ME_CONFIG_MONGODB_URL: ${ME_CONFIG_MONGODB_URL}
     depends_on:
       mongodb:
         condition: service_healthy
