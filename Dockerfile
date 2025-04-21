@@ -4,6 +4,9 @@ FROM python:3.11-slim
 # Define o diretório de trabalho
 WORKDIR /app
 
+# Instala o curl
+RUN apt-get update && apt-get install -y curl
+
 # Instala as dependências
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
