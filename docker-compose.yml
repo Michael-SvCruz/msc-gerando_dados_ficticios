@@ -11,15 +11,24 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - mongodb_data:/data/db
-      - ./mongo-init/keyfile/mongodb-keyfile:/etc/mongo-keyfile
-      - ./mongo-init/docker-entrypoint.sh:/usr/local/bin/docker-entrypoint.sh
-    entrypoint: [ "bash", "/usr/local/bin/docker-entrypoint.sh" ]
-
+      - ./mongodb-keyfile:/etc/mongo-keyfile  # Simplificando o caminho
+    # Remover o volume do entrypoint, pois ele será copiado pelo Dockerfile
     healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')", "-u", "${MONGO_INITDB_ROOT_USERNAME}", "-p", "${MONGO_INITDB_ROOT_PASSWORD}", "--authenticationDatabase", "admin"]
+      test: >
+        mongosh admin 
+        -u "${MONGO_INITDB_ROOT_USERNAME}" 
+        -p "${MONGO_INITDB_ROOT_PASSWORD}" 
+        --eval "
+          if (rs.status().ok) {
+            quit(0);
+          } else {
+            quit(1);
+          }
+        "
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 30s  # Tempo inicial para o container estar pronto
 
   data-generator:
     build: .
