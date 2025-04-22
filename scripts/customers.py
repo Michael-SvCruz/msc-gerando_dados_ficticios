@@ -7,7 +7,7 @@ import json
 from typing import List, Dict
 
 # Configurações
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://admin:senha123@mongodb:27017/?replicaSet=rs0&authSource=admin")
+MONGO_URI = os.getenv("MONGO_URI", "$MONGO_URI")
 DB_NAME = "financial_db"
 COLLECTION_NAME = "customers"
 SEQUENCE_COLLECTION = "counters"  # Coleção para controle de sequência

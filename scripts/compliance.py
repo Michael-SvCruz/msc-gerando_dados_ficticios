@@ -7,7 +7,7 @@ import json
 from typing import List, Dict
 
 # Configurações
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://admin:senha123@mongodb:27017/")
+MONGO_URI = os.getenv("MONGO_URI", "$MONGO_URI")
 DB_NAME = "financial_db"
 CUSTOMERS_COLLECTION = "customers"
 COMPLIANCE_COLLECTION = "compliance"

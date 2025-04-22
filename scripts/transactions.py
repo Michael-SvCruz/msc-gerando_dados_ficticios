@@ -7,7 +7,7 @@ from datetime import datetime
 from typing import List, Dict
 
 # Configuração do MongoDB
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://admin:senha123@mongodb:27017/")
+MONGO_URI = os.getenv("MONGO_URI", "$MONGO_URI")
 DB_NAME = "financial_db"
 ACCOUNTS_COLLECTION = "accounts"
 TRANSACTIONS_COLLECTION = "transactions"
