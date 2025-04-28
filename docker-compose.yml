@@ -3,7 +3,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.mongo
-    container_name: financial_mongodb
+    container_name: financial_db
     ports:
       - "27017:27017"
     environment:
