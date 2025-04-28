@@ -21,10 +21,10 @@ Ideal para praticar ETL, ELT, integração com diversas ferramentas em ambiente 
 ## Clone o repositório
 Através do terminal navegue até a pasta que deseja clonar o repositório e execute o comando para clonar o mesmo.
 ```bash
-git clone https://github.com/Michael-SvCruz/gerando_dados_ficticios.git
+git clone https://github.com/Michael-SvCruz/msc-gerando_dados_ficticios.git
 ```
 ## Configure as variáveis de ambiente
-Edite o arquivo .env com o valores de sua preferência.
+Crie o arquivo .env conforme abaixo.
 #### Exemplo
 Substitua ```<user>``` pelo usuário de sua escolha e ```<password>``` pela senha de sua escolha 
 ```bash
@@ -47,7 +47,7 @@ docker compose up -d --build
 ```
 Isso irá construir 3 Containers:
 - financial_mongodb : MongoDB com configuração Replica Set e autenticação;
-- mongo_express : Mongo Express (interface Web do MongoDB), lembre-se de utilizar as credenciais escolhidas no **.env** .
+- mongo_express : Mongo Express (interface Web do MongoDB), lembre-se de utilizar as credenciais escolhidas no **.env** quando for acessar via navegador.
 - data_generator_container : responsável por gerar os dados fictícios.
 
 ## Acesse os serviços
@@ -87,7 +87,7 @@ Isso irá construir 3 Containers:
 ```
 
 ## Como gerar dados fictícios
-Primeiramente a oardem de execução dos arquivos de scripts dever ser respeita:
+Primeiramente a ordem de execução dos arquivos de scripts dever ser a seguinte:
 1. customers.py
 2. accounts.py
 3. o restante dos arquivos pode seguir a ordem que desejar.
@@ -95,7 +95,7 @@ Segue um exemplo de como executar um script:
 ```bash
 docker exec -it data_generator_container python scripts/customers.py
 ```
-OBS.: No script customers controle a quantidade de registro criados alterando esse trecho do código:
+OBS.: No script customers, controle a quantidade de registro criados alterando esse trecho do código:
 ```bash
 # Gera dados
     customers = generator.generate_customers(100)
