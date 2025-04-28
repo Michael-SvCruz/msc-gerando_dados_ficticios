@@ -41,7 +41,7 @@ MONGO_URI=mongodb://<user>:<password>@mongodb:27017/?replicaSet=rs0&authSource=a
 ```
 
 ## Suba o ambiente com o Docker Compose
-Pelo teminal, na pasta raíz do projeto execute
+Pelo terminal, na pasta raiz do projeto execute
 ```bash
 docker compose up -d --build
 ```
