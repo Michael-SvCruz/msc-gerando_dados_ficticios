@@ -14,5 +14,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copia os scripts
 COPY scripts/ ./scripts/
 
+# Cria diretório para datasets e ajusta permissões
+RUN mkdir -p /app/datasets && \
+    chmod 777 /app/datasets
+
 # Comando padrão (opcional)
 CMD ["python", "--version"]
