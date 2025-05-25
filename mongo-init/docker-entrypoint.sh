@@ -46,13 +46,14 @@ if ! wait_for_mongo; then
     exit 1
 fi
 
-log "🔄 Iniciando replica set com IP externo..."
+# Importante: Inicializamos o ReplicaSet com o nome do container primeiro
+log "🔄 Iniciando replica set com nome do container..."
 if ! mongosh --quiet <<EOF
 rs.initiate({
   _id: "rs0",
   members: [{ 
     _id: 0, 
-    host: "$EXTERNAL_IP:27017",
+    host: "mongodb:27017",
     priority: 1
   }]
 })
@@ -64,6 +65,18 @@ fi
 
 log "⏳ Aguardando replica set inicializar..."
 sleep 10
+
+# Após o ReplicaSet estar inicializado, adicionamos o IP externo como um segundo membro
+log "🔄 Adicionando IP externo ao replica set..."
+if ! mongosh --quiet <<EOF
+rs.add({
+  host: "$EXTERNAL_IP:27017",
+  priority: 0.5
+})
+EOF
+then
+    log "⚠️ Falha ao adicionar IP externo ao replica set, continuando mesmo assim..."
+fi
 
 log "👤 Criando usuário admin..."
 if ! mongosh --quiet <<EOF
