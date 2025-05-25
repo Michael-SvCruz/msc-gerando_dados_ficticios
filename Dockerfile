@@ -12,7 +12,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copia os scripts
-COPY scripts/ ./scripts/
+COPY ./scripts/ /app/scripts/
 
 # Cria diretório para datasets e ajusta permissões
 RUN mkdir -p /app/datasets && \

@@ -123,7 +123,7 @@ if __name__ == "__main__":
     db_handler = MongoDBHandler()
     
     # Gera dados
-    customers = generator.generate_customers(100)
+    customers = generator.generate_customers(1000)
     print(f"🔢 IDs gerados: {customers[0]['customer_id']} a {customers[-1]['customer_id']}")
     
     # Insere no MongoDB
